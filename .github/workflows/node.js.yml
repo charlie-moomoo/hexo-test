@@ -26,9 +26,16 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+- run: git config --local user.email "kiwichang2017@gmail.com"
+- run: git config --local user.name "charlie-moomoo的分身"
+- run: git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+- run: git pull --rebase
     - run: npm install hexo-cli -g
     - run: hexo init blog
     - run: cd blog
     - run: hexo server
     - run: hexo new "Hello Hexo"
     - run: hexo generate
+    - run: git add .
+- run: git commit -m "apply blog"
+- run: git push
